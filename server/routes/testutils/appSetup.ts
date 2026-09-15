@@ -10,6 +10,8 @@ import { HmppsUser } from '../../interfaces/hmppsUser'
 import setUpWebSession from '../../middleware/setUpWebSession'
 import type { ApplicationInfo } from '../../applicationInfo'
 
+import createUserToken from '../../testutils/createUserToken'
+
 jest.mock('@ministryofjustice/hmpps-audit-client')
 
 export const user: HmppsUser = {
@@ -81,3 +83,13 @@ export function appWithAllRoutes({
 }): Express {
   return appSetup(services as Services, production, userSupplier)
 }
+
+export function createUserWithRoles(roles: string[]): HmppsUser {
+  return {
+    ...user,
+    token: createUserToken(roles.map(role => `ROLE_${role}`)),
+    userRoles: roles,
+  }
+}
+
+export const unauthenticatedUser = { ...user, token: '' }
