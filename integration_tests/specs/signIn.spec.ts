@@ -80,4 +80,32 @@ test.describe('SignIn', () => {
     const homePage = await HomePage.verifyOnPage(page)
     await expect(homePage.usersName).toHaveText('S. Othertestuser')
   })
+
+  test('User with no roles cannot see any tile cards', async ({ page }) => {
+    await login(page, { roles: [] })
+
+    await HomePage.verifyOnPage(page)
+
+    await expect(page.getByTestId('cashbook')).toHaveCount(0)
+    await expect(page.getByTestId('bankadmin')).toHaveCount(0)
+    await expect(page.getByTestId('nomsops')).toHaveCount(0)
+  })
+
+  test.describe('Tile card visibility per role', () => {
+    const cardsByRole = [
+      { testId: 'cashbook', role: 'ROLE_MTP_PRISON_CLERK' },
+      { testId: 'bankadmin', role: 'ROLE_MTP_BANK_ADMIN' },
+      { testId: 'nomsops', role: 'ROLE_MTP_SECURITY' },
+    ]
+
+    for (const { testId, role } of cardsByRole) {
+      test(`${testId} tile is visible with the ${role} role`, async ({ page }) => {
+        await login(page, { roles: [role] })
+
+        await HomePage.verifyOnPage(page)
+
+        await expect(page.getByTestId(testId)).toBeVisible()
+      })
+    }
+  })
 })
