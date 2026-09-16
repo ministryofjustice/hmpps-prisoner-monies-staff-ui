@@ -5,7 +5,6 @@ import nomsopsRoutes from './nomsops'
 import type { Services } from '../services'
 import auditSearchRequest from '../middleware/auditSearchRequest'
 import USER_ROLES from '../constants/auth'
-import config from '../config'
 
 export enum Page {
   HOME_DASHBOARD = 'HOME_DASHBOARD',
