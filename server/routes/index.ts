@@ -55,16 +55,9 @@ export default function routes(services: Services): Router {
     /*
     Check if this User has the relevant roles to show the corresponding cards for a service
     */
-    let showCashbook = res.locals.user.userRoles.includes(USER_ROLES.CASHBOOK)
-    let showBankAdmin = res.locals.user.userRoles.includes(USER_ROLES.BANK_ADMIN)
-    let showNomsOps = res.locals.user.userRoles.includes(USER_ROLES.NOMS_OPS)
-
-    // for development purposes, if the local user has access to all services, show all cards
-    if (config.localUserAccessAllServices) {
-      showCashbook = true
-      showBankAdmin = true
-      showNomsOps = true
-    }
+    const showCashbook = res.locals.user.userRoles.includes(USER_ROLES.CASHBOOK)
+    const showBankAdmin = res.locals.user.userRoles.includes(USER_ROLES.BANK_ADMIN)
+    const showNomsOps = res.locals.user.userRoles.includes(USER_ROLES.NOMS_OPS)
 
     const tileCards = buildCardList(showCashbook, showBankAdmin, showNomsOps)
 
