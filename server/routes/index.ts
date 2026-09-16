@@ -43,7 +43,7 @@ function buildCardList(showCashbook: boolean, showBankAdmin: boolean, showNomsOp
 }
 
 export default function routes(services: Services): Router {
-  const { auditService, exampleService } = services
+  const { auditService } = services
   const router = Router()
 
   router.get('/', async (req, res, _next) => {
